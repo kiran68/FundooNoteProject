@@ -5,7 +5,8 @@ import * as noteService from '../services/note.service';
 
 export const createNewNote = async (req, res, next) => {
     try {
-      const data = await noteService.newNoteData(req.body);
+      const data = await noteService.createNewNote(req.body);
+      console.log("It Is Request :", req.body);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -14,7 +15,7 @@ export const createNewNote = async (req, res, next) => {
     } catch (error) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         code: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'EError creating the note: ' + error.message,
+        message: `Error creating the note: ${error.message}`,
       });
     }
   };
@@ -22,7 +23,9 @@ export const createNewNote = async (req, res, next) => {
 
   export const getAllNotes = async (req, res, next) => {
     try {
-      const data = await noteService.getAllNotes();
+     const userId = req.body.createdBy;
+      //req.body.createdBy = user.id;
+    const data = await noteService.getAllNotes(userId);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -31,15 +34,16 @@ export const createNewNote = async (req, res, next) => {
     } catch (error) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         code: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Error fetching notes: ' + error.message,
+        message: `Error Fetching Notes: ${error.message}`
       });
     }
-  };
+  }; 
 
 
   export const getNoteById = async (req, res, next) => {
     try {
-      const data = await noteService.getNoteById (req.params.id);
+      const createdBy = req.body.createdBy;
+      const data = await noteService.getNoteById(req.params.id ,createdBy);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -48,31 +52,33 @@ export const createNewNote = async (req, res, next) => {
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
         code: HttpStatus.BAD_REQUEST,
-        message: 'Note Not Found: ' + error.message
+        message: `Note Not Found: ${error.message}`
       });
     }
   };
 
-  export const noteUpdateById = async (req,res,next) => {
-    try{
-      const updateddata = await noteService.noteUpdateById(req.params.id,req.body);
+  export const noteUpdateById = async (req, res, next) => {
+    try {
+      const createdBy = req.body.createdBy;
+      const updateddata = await noteService.noteUpdateById(req.params.id, req.body, createdBy,{new: true});
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: updateddata,
         message: 'Note updated successfully'
       });
-     
-    }catch(error) {
+    } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
         code: HttpStatus.BAD_REQUEST,
-        message: 'Update Filed: ' + error.message
+        message: `Update Failed: ${error.message}`
       });
     }
   };
+  
 
   export const deleteNote = async (req, res) => {
     try {
-      await noteService.deleteNote(req.params.id);
+      const createdBy = req.body.createdBy;
+      await noteService.deleteNote(req.params.id,createdBy); 
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: [],
@@ -81,8 +87,7 @@ export const createNewNote = async (req, res, next) => {
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
         code: HttpStatus.BAD_REQUEST,
-        message: 'Note Is Note Delete: ' + error.message
+        message: `Failed to delete the note: ${error.message}`
       });
     }
   };
-

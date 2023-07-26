@@ -10,21 +10,22 @@ const  noteSchema = new Schema(
    description : {
    type : String
   },
-//   createdBy : {
-//    type : String
-//   },
+  createdBy : {
+   type : String
+  },
 //   isArchive: {
-//    type: Boolean,
-//    default: false,
-//  },
-//  isTrash: {
-//    type: Boolean,
-//    default: false,
-//  },
-//  color: {
-//    type: String,
-//    default: 'white',
-//  },
+//     type: Boolean,
+//     default: false,
+//   },
+//   isTrash: {
+//     type: Boolean,
+//     default: false,
+//   },
+ 
+ color: {
+  type: String, 
+  default: '',
+}, 
 },
 {
    timestamps: true
