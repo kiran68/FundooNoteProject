@@ -95,7 +95,7 @@ export const createNewNote = async (req, res, next) => {
   export const  isArchiveNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isArchiveNote(req.params.id,createdBy); // Assuming NoteService handles the note operations
+      const data = await noteService.isArchiveNote(req.params.id,createdBy,true); // Assuming NoteService handles the note operations
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -108,6 +108,10 @@ export const createNewNote = async (req, res, next) => {
       });
     }
   };
+
+
+
+  
 
   export const isUnarchiveNote = async (req, res, next) => {
     try {
@@ -130,10 +134,10 @@ export const createNewNote = async (req, res, next) => {
   
 
 
-  export const  isTrashNote = async (req, res, next) => {
+  export const isTrashNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isTrashNote(req.params.id, req.body, createdBy,{new: true});
+      const data = await noteService.isTrashNote(req.params.id, createdBy, true);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -142,10 +146,11 @@ export const createNewNote = async (req, res, next) => {
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
         code: HttpStatus.BAD_REQUEST,
-        message:`Failed to trash the note: ${error.message}`
+        message: `Failed to trash the note: ${error.message}`
       });
     }
   };
+  
 
 
   export const isUntrashNote = async (req, res, next) => {
