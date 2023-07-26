@@ -18,8 +18,13 @@ router.put('/:id',noteController.noteUpdateById);
 router.delete('/:id', noteController.deleteNote);
 //Archive Note by id
 router.put('/:id/archive', userAuth, noteController.isArchiveNote);
+
+router.put('/:id/unarchive', userAuth, noteController.isUnarchiveNote);
 // Trash note by id 
 router.put('/:id/trash', userAuth, noteController.isTrashNote);
+
+router.put('/:id/untrash', userAuth, noteController.isUntrashNote);
+
 
 
 export default router;

@@ -109,6 +109,26 @@ export const createNewNote = async (req, res, next) => {
     }
   };
 
+  export const isUnarchiveNote = async (req, res, next) => {
+    try {
+      const createdBy = req.body.createdBy;
+      const data = await noteService.isUnarchiveNote(req.params.id, createdBy, false); // Assuming NoteService handles the note operations
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: data,
+        message: 'Note unarchived successfully'
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        message: `Failed to unarchive the note: ${error.message}`
+      });
+    }
+  };
+  
+
+  
+
 
   export const  isTrashNote = async (req, res, next) => {
     try {
@@ -126,3 +146,23 @@ export const createNewNote = async (req, res, next) => {
       });
     }
   };
+
+
+  export const isUntrashNote = async (req, res, next) => {
+    try {
+      const createdBy = req.body.createdBy;
+      const data = await noteService.isUntrashNote(req.params.id, createdBy, false); // Assuming NoteService handles the note operations
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: data,
+        message: 'Note restored from trash successfully'
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        message: `Failed to restore the note from trash: ${error.message}`
+      });
+    }
+  };
+  
+

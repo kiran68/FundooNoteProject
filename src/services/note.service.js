@@ -85,11 +85,38 @@ export const isArchiveNote = async (id, createdBy, isArchiveValue) => {
     return updatedNote;
   };
 
+  export const isUnarchiveNote = async (id, createdBy) => {
+    const filter = { _id: id, createdBy: createdBy };
+    const update = { isArchive: false };
   
+    const updatedNote = await Note.findOneAndUpdate(filter, update, { new: true });
+  
+    if (!updatedNote) {
+      throw new Error('Note does not exist or does not belong to the specified user');
+    }
+  
+    return updatedNote;
+  };
+
+
 
   export const isTrashNote = async (id, createdBy, isTrashValue) => {
     const filter = { _id: id, createdBy: createdBy };
     const update = { isTrash: isTrashValue };
+  
+    const updatedNote = await Note.findOneAndUpdate(filter, update, { new: true });
+  
+    if (!updatedNote) {
+      throw new Error('Note does not exist or does not belong to the specified user');
+    }
+  
+    return updatedNote;
+  };
+
+
+  export const isUntrashNote = async (id, createdBy) => {
+    const filter = { _id: id, createdBy: createdBy };
+    const update = { isTrash: false };
   
     const updatedNote = await Note.findOneAndUpdate(filter, update, { new: true });
   
