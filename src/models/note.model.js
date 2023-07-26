@@ -13,14 +13,14 @@ const  noteSchema = new Schema(
   createdBy : {
    type : String
   },
-//   isArchive: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   isTrash: {
-//     type: Boolean,
-//     default: false,
-//   },
+  isArchive: {
+    type: Boolean,
+    default: false,
+  },
+  isTrash: {
+    type: Boolean,
+    default: false,
+  },
  
  color: {
   type: String, 

@@ -16,6 +16,10 @@ router.get('/:id',userAuth, noteController.getNoteById);
 router.put('/:id',noteController.noteUpdateById);
 // delete note
 router.delete('/:id', noteController.deleteNote);
+//Archive Note by id
+router.put('/:id/archive', userAuth, noteController.isArchiveNote);
+// Trash note by id 
+router.put('/:id/trash', userAuth, noteController.isTrashNote);
 
 
 export default router;
