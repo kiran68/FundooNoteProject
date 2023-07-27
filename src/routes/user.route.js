@@ -12,4 +12,6 @@ router.post('',newUserValidator,userController.registerUser);
 // Route for user login
 router.post('/login', loginUserValidator,userController.loginUser); 
 
+router.post('/forgot-password', emailValidator,userAuth, emailController.forgotPassword);
+
 export default router;

@@ -12,16 +12,6 @@ export const createNewNote = async (body) => {
 
 
 
-// export const getAllNotes = async () => {
-//   try {
-//     const data = await Note.find();
-//     return data;
-//   } catch (error) {
-//     throw new Error(`Failed to fetch notes: ${error.message}`);
-//   }
-// };
-// noteService.js
-
 
 export const getAllNotes = async (userId) => {
   try {
@@ -43,13 +33,6 @@ export const getNoteById = async (id, createdBy) => {
 };
 
 
-// export const noteUpdateById = async (_id, body) => {
-//   const updatedData = await Note.findByIdAndUpdate(_id, body);
-//   if (!updatedData) {
-//     throw new Error('Note does not exist');
-//   }
-//   return updatedData;
-// };
 
 export const noteUpdateById = async (id, body, createdBy) => {
   const updatedData = await Note.findOneAndUpdate({ _id: id, createdBy: createdBy }, body ,{new: true});
@@ -61,9 +44,6 @@ export const noteUpdateById = async (id, body, createdBy) => {
 };
 
 
-
-
-
 export const deleteNote = async (id, createdBy) => {
   const data = await Note.deleteOne({ _id: id, createdBy: createdBy });
   if (!data) {
@@ -73,9 +53,8 @@ export const deleteNote = async (id, createdBy) => {
   return 'note deleted succesfully';
 };
 
-// NoteService.js
 
-export const isArchiveNote = async (id, createdBy, isArchiveValue) => {
+export const isArchiveNote = async (id, createdBy,) => {
     const filter = { _id: id, createdBy: createdBy };
     const update = { isArchive: true };
   
@@ -103,8 +82,7 @@ export const isArchiveNote = async (id, createdBy, isArchiveValue) => {
   };
 
 
-
-  export const isTrashNote = async (id, createdBy, isTrashValue) => {
+  export const isTrashNote = async (id, createdBy) => {
     const filter = { _id: id, createdBy: createdBy };
     const update = { isTrash: true };
   
@@ -118,7 +96,7 @@ export const isArchiveNote = async (id, createdBy, isArchiveValue) => {
   };
   
 
-  export const isUntrashNote = async (id, createdBy, isTrashValue) => {
+  export const isUntrashNote = async (id, createdBy) => {
     const filter = { _id: id, createdBy: createdBy };
     const update = { isTrash: false };
   

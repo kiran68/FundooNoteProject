@@ -45,3 +45,14 @@ export const loginUser = async (body) => {
     return token;
   }
 }; 
+
+
+
+export const forgotPassword= async (body ) => {
+  const user = await Email.findOne(body.email );
+  if (!user) {
+    throw new Error('Email not found');
+  }
+  const token = jwt.sign({ email: user.email,id: user.id }, process.env.JWTSECRET);
+  return token;
+};

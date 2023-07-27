@@ -95,7 +95,7 @@ export const createNewNote = async (req, res, next) => {
   export const  isArchiveNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isArchiveNote(req.params.id,createdBy,true); // Assuming NoteService handles the note operations
+      const data = await noteService.isArchiveNote(req.params.id,createdBy); 
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -116,7 +116,7 @@ export const createNewNote = async (req, res, next) => {
   export const isUnarchiveNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isUnarchiveNote(req.params.id, createdBy, false); // Assuming NoteService handles the note operations
+      const data = await noteService.isUnarchiveNote(req.params.id, createdBy); 
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -137,7 +137,7 @@ export const createNewNote = async (req, res, next) => {
   export const isTrashNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isTrashNote(req.params.id, createdBy, true);
+      const data = await noteService.isTrashNote(req.params.id, createdBy);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -156,7 +156,7 @@ export const createNewNote = async (req, res, next) => {
   export const isUntrashNote = async (req, res, next) => {
     try {
       const createdBy = req.body.createdBy;
-      const data = await noteService.isUntrashNote(req.params.id, createdBy, false); // Assuming NoteService handles the note operations
+      const data = await noteService.isUntrashNote(req.params.id, createdBy); 
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,

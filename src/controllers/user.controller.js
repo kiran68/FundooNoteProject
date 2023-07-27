@@ -34,3 +34,20 @@ export const loginUser = async (req, res, next) => {
     });
   }
 };
+
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const resetToken = await emailService.forgotPassword(req.body); 
+   
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data:resetToken,
+      message: 'Password reset token sent successfully',
+    });
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: error.message,
+    });
+  }
+};
