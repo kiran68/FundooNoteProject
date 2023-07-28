@@ -1,6 +1,7 @@
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { sendMail } from '../utils/sendMail';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -29,14 +30,12 @@ export const registerUser = async (body) => {
 
 
 export const loginUser = async (body) => {
+  console.log(body)
   const user = await User.findOne({ email: body.email });
-
   if (!user) {
     throw new Error('User not found');
   }
-
   const isPasswordMatch = await bcrypt.compare(body.password, user.password);
-  
   if (!isPasswordMatch) {
     throw new Error('Invalid password');
   }
@@ -48,11 +47,38 @@ export const loginUser = async (body) => {
 
 
 
-export const forgotPassword= async (body ) => {
-  const user = await Email.findOne(body.email );
-  if (!user) {
-    throw new Error('Email not found');
+
+export const forgotPassword = async (body) => {
+  try {
+    const user = await User.findOne({ email: body.email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const token = jwt.sign({ email: user.email, id: user.id }, process.env.JWTSECRET);
+   await sendMail(user.email, token);
+    return token;
+  } catch (error) {
+    throw new Error('Error in forgotPassword function: ' + error.message);
   }
-  const token = jwt.sign({ email: user.email,id: user.id }, process.env.JWTSECRET);
-  return token;
 };
+
+
+
+export const resetPassword = async (body) => {
+  const user = await User.findOne({ email: body.email });
+  if (!user){ 
+  throw new Error('User not exist')
+  }else {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(body.password, saltRounds);
+
+
+  user.password = hashedPassword;
+  return await user.save();
+  }
+};
+
+
+
+
+

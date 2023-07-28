@@ -16,8 +16,30 @@ export const userAuth = async (req, res, next) => {
     bearerToken = bearerToken.split(' ')[1];
 
     const  user  = await jwt.verify(bearerToken, process.env.JWT_SECRET);
-    console.log('User object:', user);
+    //console.log('User object:', user);
     req.body.createdBy = user.id;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
+
+export const resetPasswordAuth = async (req, res, next) => {
+  try {
+    let bearerToken = req.header('Authorization');
+    //console.log( "this brarerToken:" ,bearerToken);
+    if (!bearerToken)
+      throw {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Authorization token is required'
+      };
+    bearerToken = bearerToken.split(' ')[1];
+    const  user  = await jwt.verify(bearerToken, process.env.JWTSECRET);
+    req.body.id = user.id;
     next();
   } catch (error) {
     next(error);

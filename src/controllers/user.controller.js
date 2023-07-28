@@ -20,8 +20,10 @@ export const registerUser = async (req, res, next) => {
 
 
 export const loginUser = async (req, res, next) => {
+  //console.log(req.body)
   try {
     const data = await UserService.loginUser(req.body);
+    console.log(req.body)
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -36,13 +38,33 @@ export const loginUser = async (req, res, next) => {
 };
 
 export const forgotPassword = async (req, res, next) => {
+  //console.log(req.body);
   try {
-    const resetToken = await emailService.forgotPassword(req.body); 
-   
+    const data = await UserService.forgotPassword(req.body); 
+    
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
-      data:resetToken,
-      message: 'Password reset token sent successfully',
+      data:data,
+      message: 'Password reset token sent successfully'
+    });
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export const resetPassword = async (req, res, next) => {
+ // console.log(req.body);
+  try {
+ const data = await UserService.resetPassword(req.body)
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data:data,
+      message: 'Password reset successfully',
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).json({
